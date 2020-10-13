@@ -16,7 +16,20 @@ document.querySelector('.btn-hold').addEventListener('click', function() {
         document.querySelector('.player-' + activePlayer + '-panel').classList.remove('active');
         activePlayer === 0 ? activePlayer = 1 : activePlayer = 0;
         document.querySelector('.player-' + activePlayer + '-panel').classList.add('active');
-        if (hold === 2) {gameState = false};
+        
+        if (hold === 2) {
+            document.querySelector('.player-' + activePlayer + '-panel').classList.remove('active');
+            if (score[0] > score[1]) {
+                document.querySelector('.player-0-panel').classList.add('winner');
+                document.querySelector('#name-0').textContent = 'Winner!';
+            } else if (score[1] > score[0]) {
+                document.querySelector('#name-1').textContent = 'Winner!';
+                document.querySelector('.player-1-panel').classList.add('winner');
+            } else {
+                document.querySelector('#name-1').textContent = 'Draw!';
+                document.querySelector('#name-0').textContent = 'Draw!';
+            }
+            gameState = false};
     }});
 
 document.querySelector('.btn-new').addEventListener('click', init)
@@ -25,10 +38,10 @@ document.querySelector('.btn-new').addEventListener('click', init)
 function addCard(cardNumber, player) {
 
     var suits = ['♦', '♥', '♣', '♠'];
-    
+
     var num = Math.floor(Math.random() * 13) + 1;
-    if (num === 1) {num = 'A';} else if (num === 11) {num = 'J';}
-    else if (num === 12) {num = 'Q';} else if (num === 13) {num = 'K';};
+    if (num === 1) num = 'A'; else if (num === 11) num = 'J';
+    else if (num === 12) num = 'Q'; else if (num === 13) num = 'K';
 
     var suit = suits[Math.floor(Math.random() * 4)];
 
@@ -44,17 +57,14 @@ function addCard(cardNumber, player) {
     card.querySelector('.bottom-num').textContent = String(num);
     card.querySelector('.top-num').textContent = String(num);
     card.querySelector('.suit').textContent = suit;
-    if (suit === '♥' || suit === '♦') {
-        card.style.color = '#EB4D4D';
-    } else {
-        card.style.color = '#000';
-    };
+    if (suit === '♥' || suit === '♦') card.style.color = '#EB4D4D';
+    else card.style.color = '#000';
     
     document.querySelector('.wrapper').appendChild(card);
 
     var index = cards[player][cards[player].length - 1][0];
-    if (index === 'J' || index === 'Q' || index === 'K') { index = 10;}
-    else if (index === 'A') { index = 1;};
+    if (index === 'J' || index === 'Q' || index === 'K') index = 10;
+    else if (index === 'A') index = 1;;
     score[player] += index;
 
     if (score[activePlayer] > 21) { // Check if someone won the game
