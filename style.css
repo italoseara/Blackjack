@@ -169,3 +169,5 @@ i {
 
     text-align: center;
 }
+
+.winner .player-name { font-weight: 300; color: #EB4D4D; }
